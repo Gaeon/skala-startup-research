@@ -40,7 +40,7 @@
 
 
 ## Directory Structure
-├── **app.py **                      # 🚀 실행 진입점 (LangGraph 워크플로우 정의 및 실행)    
+├── **app.py**                       # 🚀 실행 진입점 (LangGraph 워크플로우 정의 및 실행)    
 ├── graphState.py                    # 🧠 사용자 정의 GraphState 클래스 (state 타입 지정)    
 ├── .env                             # 🔐 API 키 등 환경변수    
 ├── README.md                        # 📘 프로젝트 설명 문서    
