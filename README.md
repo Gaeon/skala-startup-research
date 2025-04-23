@@ -9,13 +9,13 @@
 
 ## Features
 
-- AI 스타트업 검색: 국내 의료 분야 AI 스타트업 리스트를 자동으로 수집 및 출력
-- CEO 전문성 및 적합성 확인: CEO 이력과 전문성을 분석하여 창업자 역량 평가
-- 스타트업의 기술력 핵심 요약: 기술 핵심 내용과 장단점을 정리하여 기술 경쟁력 요약
-- 시장 성장성, 수요 분석: 기술과 시장 데이터를 바탕으로 성장 가능성과 수요, FDA 상태 평가
-- 경쟁사 대비 경쟁 우위 및 약점 분석: 경쟁사와의 비교를 통해 차별화 요소와 리스크 도출
-- 종합 투자 판단: 다각적 평가 기준을 종합하고, 의료 도메인에 특화된 체크 리스트를 기반으로 LLM을 사용하여 투자 여부 판단
-- 결과 요약 보고서 작성: 분석 결과를 기반으로 구조화된 PDF 형태의 투자 평가 보고서 생성
+- **AI 스타트업 검색**: 국내 의료 분야 AI 스타트업 리스트를 자동으로 수집 및 출력
+- **CEO 전문성 및 적합성 확인**: CEO 이력과 전문성을 분석하여 창업자 역량 평가
+- **스타트업의 기술력 핵심 요약**: 기술 핵심 내용과 장단점을 정리하여 기술 경쟁력 요약
+- **시장 성장성, 수요 분석**: 기술과 시장 데이터를 바탕으로 성장 가능성과 수요, FDA 상태 평가
+- **경쟁사 대비 경쟁 우위 및 약점 분석**: 경쟁사와의 비교를 통해 차별화 요소와 리스크 도출
+- **종합 투자 판단**: 다각적 평가 기준을 종합하고, 의료 도메인에 특화된 체크 리스트를 기반으로 LLM을 사용하여 투자 여부 판단
+- **결과 요약 보고서 작성**: 분석 결과를 기반으로 구조화된 PDF 형태의 투자 평가 보고서 생성
 
 ## Tech Stack 
 
@@ -27,13 +27,13 @@
 
 ## Agents
  
-- startup_researcher : 스타트업 탐색, AI 스타트업 정보 수집 
-- technology_researcher : 기술 요약, 스타트업의 기술력 핵심
-- ceo_evaluation : CEO 역량 평가, CEO의 전문성 및 적합성
-- competitor_analyzation : 경쟁사 비교, 경쟁사 대비 경쟁 우위 및 약점 분석
-- investment_judgement : 투자 판단, 종합 판단 (List, ROI 등)
-- report_generator : 보고서 생성, 결과 요약 보고서 생성
-- market_evaluation : 시장 평가
+- **startup_researcher** : 스타트업 탐색, AI 스타트업 정보 수집 
+- **technology_researcher** : 핵심 기술 분석 (홈페이지 설명 요약, 최신 기술 관련 기사 요약, FDA 승인 결과 및 게재 논문 요약)
+- **ceo_evaluation** : CEO 역량 평가, CEO의 전문성 및 적합성
+- **competitor_analyzation** : 경쟁사 비교, 경쟁사 대비 경쟁 우위 및 약점 분석
+- **investment_judgement** : 투자 판단, 종합 판단 (List, ROI 등)
+- **report_generator** : 보고서 생성, 결과 요약 보고서 생성
+- **market_evaluation** : 시장 평가
 
 ## Architecture
 ![Screenshot 2025-04-23 at 3 27 07 PM (1)](https://github.com/user-attachments/assets/2deecbd6-1fa2-4ea7-8914-860162eec814)
