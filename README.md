@@ -39,27 +39,27 @@
 ![alt text](image.png)
 
 ## Directory Structure
-├── app.py                           # 🚀 실행 진입점 (LangGraph 워크플로우 정의 및 실행)
-├── graphState.py                    # 🧠 사용자 정의 GraphState 클래스 (state 타입 지정)
-├── .env                             # 🔐 API 키 등 환경변수
-├── README.md                        # 📘 프로젝트 설명 문서
-
-├── data/                            # 입력 데이터 저장소 (예: PDF 문서)
-│   ├── checklist.pdf
-│   └──digital_health_success_factors.pdf
-│
-├── outputs/                         # 평가 결과 및 리포트 저장
-│   └── final_report.pdf
-│
-└── agents/                          # 기능별 LangGraph Agent (노드 단위)
-    ├── __init__.py
-    ├── startup_research.py         # 스타트업 리스트 수집 (list_startups)
-    ├── technology_research.py      # 기술 분석 (process_startups_concurrent)
-    ├── ceo.py                      # CEO 평가 (evaluate_companies)
-    ├── market_evaluation.py        # 시장성 분석 (market_eval_agent)
-    ├── competitor_analyze.py       # 경쟁사 분석 (startups_competitor)
-    ├── investment.py               # 투자 판단 (investment_judgement_async)
-    └── report_generator.py         # 최종 보고서 작성 (generate_report_text)
+├── app.py                           # 🚀 실행 진입점 (LangGraph 워크플로우 정의 및 실행) <br>
+├── graphState.py                    # 🧠 사용자 정의 GraphState 클래스 (state 타입 지정) <br>
+├── .env                             # 🔐 API 키 등 환경변수 <br>
+├── README.md                        # 📘 프로젝트 설명 문서 <br>
+ <br>
+├── data/                            # 입력 데이터 저장소 (예: PDF 문서) <br>
+│   ├── checklist.pdf <br>
+│   └──digital_health_success_factors.pdf <br>
+│ <br>
+├── outputs/                         # 평가 결과 및 리포트 저장 <br>
+│   └── final_report.pdf <br>
+│ <br>
+└── agents/                          # 기능별 LangGraph Agent (노드 단위) <br>
+    ├── __init__.py <br>
+    ├── startup_research.py         # 스타트업 리스트 수집 (list_startups) <br>
+    ├── technology_research.py      # 기술 분석 (process_startups_concurrent) <br>
+    ├── ceo.py                      # CEO 평가 (evaluate_companies) <br>
+    ├── market_evaluation.py        # 시장성 분석 (market_eval_agent) <br>
+    ├── competitor_analyze.py       # 경쟁사 분석 (startups_competitor) <br>
+    ├── investment.py               # 투자 판단 (investment_judgement_async) <br>
+    └── report_generator.py         # 최종 보고서 작성 (generate_report_text) <br>
 
 ## Contributors 
 - 김가언 : Agent investment
