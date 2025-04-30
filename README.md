@@ -36,7 +36,10 @@
 - Agent market_evaluation : 시장 평가
 
 ## Architecture
-![alt text](image.png)
+![Screenshot 2025-04-23 at 3 27 07 PM (1)](https://github.com/user-attachments/assets/2deecbd6-1fa2-4ea7-8914-860162eec814)   
+
+*자세한 버전   
+ <img src="https://github.com/user-attachments/assets/73303236-32ff-4696-bf7f-b66e7bd985eb" width="700" />
 
 ## Directory Structure
 ├── app.py                           # 🚀 실행 진입점 (LangGraph 워크플로우 정의 및 실행)
