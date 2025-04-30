@@ -37,18 +37,35 @@ def evaluate_ceo_with_name(company: str, ceo_name: str) -> str:
     return response.choices[0].message.content.strip()
 
 def evaluate_companies(state:GraphState) -> GraphState :
+    print("⭐️⭐️⭐️⭐️⭐️⭐️ CEO Start : ")
+    # print(state)
+
+    ceo_messages={}
     for company in state["startup_names"]:
-        state.select_startup = company
+        # state.select_startup = company
+        state["select_startup"] = company
         #print(f"\n🔍 [{company}] 평가 시작")
         ceo_name = get_ceo_name_from_web(company)
         #print(f"👤 CEO 이름 추출 결과: {ceo_name}")
         if ceo_name == "알 수 없음":
             continue
         evaluation = evaluate_ceo_with_name(company, ceo_name)
-        state['ceo_messages'][company] = {
-            "ceo_name": ceo_name,
+        # state['ceo_messages'][company] = {
+        #     "ceo_name": ceo_name,
+        #     "evaluation": evaluation
+        # }
+        #print(f"✅ 평가 완료 요약: {evaluation[:100]}...")
+
+
+        ceo_messages[company] = {
+           "ceo_name": ceo_name,
             "evaluation": evaluation
         }
-        #print(f"✅ 평가 완료 요약: {evaluation[:100]}...")
-    
-    return state
+        
+
+        
+    print("⭐️⭐️⭐️⭐️⭐️⭐️ CEO End : ")
+    # print(state)
+    return {
+        "ceo_messages": ceo_messages
+    }

@@ -1,5 +1,7 @@
-from langchain_community.tools.tavily_search import TavilySearchResults
-from langchain.chat_models import ChatOpenAI
+# from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_community.tools.tavily_search.tool import TavilySearchResults
+# from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 import ast
 from langchain_core.prompts import PromptTemplate
 import requests
@@ -28,7 +30,8 @@ def fetch_full_text(url: str, max_length: int = 2000) -> str:
 
 
 def list_startups(state: GraphState) -> GraphState:
-    print("⭐️⭐️⭐️⭐️⭐️⭐️List Startups")
+    print("⭐️⭐️⭐️⭐️⭐️⭐️List Startups Start : ")
+    # print(state)
     """검색 결과에서 스타트업 이름 추출"""
     search_tool = TavilySearchResults()
     result = search_tool.run("의료 생성형AI 스타트업")
@@ -50,5 +53,9 @@ def list_startups(state: GraphState) -> GraphState:
     names = ast.literal_eval(response.content)
 
     state["startup_names"] = names
+    state["startup_names"] = state["startup_names"][0:3] ## 디버깅용, startup_names에서 하나만 남김! 나머진 빼고 생각하자!
 
+    print("⭐️⭐️⭐️⭐️⭐️⭐️List Startups End : ")
+    print(state)
     return state
+

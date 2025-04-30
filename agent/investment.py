@@ -1,10 +1,19 @@
 import json
 import asyncio
 from langchain.agents import create_tool_calling_agent, AgentExecutor
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain.chat_models import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.prompts import PromptTemplate
 from langchain.tools.retriever import create_retriever_tool
+from langchain_opentutorial.rag.pdf import PDFRetrievalChain
+from langchain_community.document_loaders import PDFPlumberLoader
+import os
+from langchain.vectorstores import FAISS
+from langchain.embeddings import OpenAIEmbeddings
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI  # ✅ 이게 진짜 "bind_tools" 지원함!
 
 from graphState import GraphState
 
@@ -12,10 +21,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-async def investment_judgement_async(state: GraphState, pdf_retriever) -> GraphState:
+loader = PyPDFLoader(os.path.join(os.path.dirname(__file__), "data", "checklist.pdf"))
+docs = loader.load()
+
+vectorstore = FAISS.from_documents(docs, OpenAIEmbeddings())
+retriever = vectorstore.as_retriever()
+
+
+async def investment_judgement_async(state: GraphState) -> GraphState:
+    print("⭐️⭐️⭐️⭐️⭐️⭐️ Invest Start : ")
+    print(state)
+
 	# ✅ 1. PDF 기반 retriever_tool 생성
     retriever_tool = create_retriever_tool(
-        retriever=pdf_retriever,
+        retriever=retriever,
         name="checklist_retriever",
         description="Search investment checklist from PDF for e-health startup evaluation.",
         document_prompt=PromptTemplate.from_template(
@@ -34,7 +53,8 @@ async def investment_judgement_async(state: GraphState, pdf_retriever) -> GraphS
         MessagesPlaceholder(variable_name="agent_scratchpad"),
     ])
     agent = create_tool_calling_agent(llm, tools, prompt)
-    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    # agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False) # 와라락출력 수정
 
     # ✅ 3. checklist 항목 JSON 추출
     checklist_prompt = (
@@ -56,9 +76,9 @@ async def investment_judgement_async(state: GraphState, pdf_retriever) -> GraphS
     async def evaluate_startup(name: str):
         messages = [
             state["summary_messages"].get(name, ""),
-            state["ceo_messages"].get(name, ""),
-            state["market_messages"].get(name, ""),
-            state["competitor_messages"].get(name, "")
+            f'CEO: {state["ceo_messages"].get(name, {}).get("evaluation", "")}',
+            f'Market: {state["market_messages"].get(name, {}).get("summary", "")}',
+            f'Competitor: {state["competitor_messages"].get(name, "")}',
         ]
         context = " ".join(messages)
         row_score = []
@@ -79,7 +99,7 @@ async def investment_judgement_async(state: GraphState, pdf_retriever) -> GraphS
             score = 1 if "yes" in result.get("output", "").lower() else 0
             row_score.append(score)
 
-        decision = "투자" if sum(row_score) / len(row_score) >= 0.5 else "보류"
+        decision = "투자" if sum(row_score) / len(row_score) >= 0.1 else "보류"
         return row_score, decision
 
     # ✅ 5. 전체 기업 병렬 평가 실행
@@ -99,6 +119,8 @@ async def investment_judgement_async(state: GraphState, pdf_retriever) -> GraphS
     print(checklist_scores)
     print(investment_decisions)
 
-    print(state)
+    # print(state)
 
+    print("⭐️⭐️⭐️⭐️⭐️⭐️ Invest End : ")
+    print(state)
     return state

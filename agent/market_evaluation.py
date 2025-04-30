@@ -1,13 +1,16 @@
 from dotenv import load_dotenv
 from typing import Dict, List, Any, TypedDict
 from langchain.chains import RetrievalQA
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+# from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_core.tools.retriever import create_retriever_tool
 import re
+import os
 
 from graphState import GraphState
 
@@ -26,7 +29,8 @@ class MarketEvalState(TypedDict):
 # PDF 파일 로드 및 처리
 def load_pdf_and_create_retriever():
     # PDF 파일 로드
-    loader = PyPDFLoader("./digital_health_success_factors.pdf")
+    # loader = PyPDFLoader("./digital_health_success_factors.pdf")
+    loader = PyPDFLoader(os.path.join(os.path.dirname(__file__), "data", "digital_health_success_factors.pdf"))
     documents = loader.load()
     
     # 텍스트 스플리팅 (내용은 제공되지 않았으나 필요할 것으로 예상)
@@ -52,6 +56,9 @@ def load_pdf_and_create_retriever():
 
 # 의료 AI 시장성 평가 에이전트
 def market_eval_agent(state: GraphState)-> GraphState:
+    print("⭐️⭐️⭐️⭐️⭐️⭐️ Market Eval Start : ")
+    print(state)
+
     # 리트리버 생성
     retriever, _ = load_pdf_and_create_retriever()
     
@@ -110,7 +117,10 @@ def market_eval_agent(state: GraphState)-> GraphState:
     fda_approval_status = {}  # FDA 승인 상태 저장용 변수 추가
     
     # 각 스타트업에 대한 평가 진행
-    result_dict = {}
+    # result_dict = {}
+
+    market_messages = {}
+
     for name in startup_names:
         tech_summary = tech_summaries.get(name, "정보 없음")
         
@@ -159,10 +169,29 @@ def market_eval_agent(state: GraphState)-> GraphState:
         reason_match = re.search(r'평가\s*이유\s*:(.*?)(?=\n\n|$)', response_text, re.DOTALL)
         reason = reason_match.group(1).strip() if reason_match else response_text
 
-        result_dict[market_evaluation] = grade
-        result_dict[fda_approval_status] = fda_status  # FDA 승인 상태 저장
-        result_dict[evaluation_reasons] = reason
+        # result_dict[market_evaluation] = grade
+        # result_dict[fda_approval_status] = fda_status  # FDA 승인 상태 저장
+        # result_dict[evaluation_reasons] = reason
 
-        state['market_messages'][name] = result_dict
+        # result_dict["market_evaluation"] = grade
+        # result_dict["fda_approval_status"] = fda_status
+        # result_dict["evaluation_reasons"] = reason
+
+        market_messages[name] = {
+            "market_evaluation": grade,
+            "fda_approval_status": fda_status,
+            "evaluation_reasons": reason
+        }
+        
+
+        # state['market_messages'][name] = result_dict
     # 상태 업데이트 및 반환
-    return state
+
+    print("⭐️⭐️⭐️⭐️⭐️⭐️ Market Eval END : ")
+    print(state)
+    print(market_messages)
+
+    # return state
+    return {
+    "market_messages": market_messages
+    }

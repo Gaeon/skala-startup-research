@@ -1,7 +1,8 @@
 from tavily import TavilyClient
 from pydantic import BaseModel
 from typing import List
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 
 from graphState import GraphState
 
@@ -32,7 +33,8 @@ def search_news_for_subtheme(startup_list):
             'raw_content': result['raw_content']
         })
     
-    return {startup_list: competitors_info}
+    # return {startup_list: competitors_info}
+    return {str(startup_list): competitors_info}
 
 def search_news_by_subthemes(startup_list):
     search_results = {}
@@ -88,10 +90,14 @@ def extract_strengths_and_weaknesses(news_articles, startup):
 result = {}
 
 def startups_competitor(state: GraphState) -> GraphState:
+    print("⭐️⭐️⭐️⭐️⭐️⭐️ Competitor Start : ")
+    # print(state)
     # 뉴스 검색
     startup_list = state['startup_names']
     news_results = search_news_by_subthemes(startup_list)
     
+    competitor_messages = {}
+
     for startup, articles in news_results.items():
         #print(f"🔍 스타트업: {startup}")
         combined_news = "\n\n".join(
@@ -100,7 +106,16 @@ def startups_competitor(state: GraphState) -> GraphState:
 
         strengths_and_weaknesses = extract_strengths_and_weaknesses(combined_news, startup)
         #print(f"    🧠 경쟁 우위 및 약점 요약:\n{strengths_and_weaknesses}")
-        state['competitor_messages'][startup] = strengths_and_weaknesses
+        # state['competitor_messages'][startup] = strengths_and_weaknesses
 
-    return state
+        competitor_messages[startup] = {"strengths_and_weaknesses" : strengths_and_weaknesses}
+
+
+
+    print("⭐️⭐️⭐️⭐️⭐️⭐️ Competitor End : ")
+    # print(state)
+    # return state
+    return {
+    "competitor_messages": competitor_messages
+    }
 
